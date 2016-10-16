@@ -14,7 +14,7 @@ public class Hello {
 	}
 	
 	public String getMessage(){
-		return "Hello World JSF!";
+		return "Hello World JSF!!";
 	}
 
 }
