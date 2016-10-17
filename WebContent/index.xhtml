@@ -11,13 +11,15 @@
   </h:head>
   
   <h:body>
-	    <p:dataTable value="#{productRequestController.products}" var="product">
+  	<h:form>
+	    <p:dataTable value="#{productController.products}" var="product" filteredValue="#{productController.filteredProducts}">
 	    	<f:facet name="header">
 	    	  <h:outputText value="Produtos" />
-	    	</f:facet> 
-			<p:column>
+	    	</f:facet>
+			<p:column filterBy="#{product.name}" filterMatchMode="contains">
 			  <h:outputText value="#{product.name}" />
 			</p:column>
 		</p:dataTable>
+	</h:form>
   </h:body>
-</html> 
+</html>

@@ -53,4 +53,20 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		
+		if (!(obj instanceof Product)) {
+			return false;
+		}
+		Product other = (Product) obj;
+		if (name == null || other.name == null) {
+			return false;
+		}
+		return name.equals(other.name);
+	}
 }
