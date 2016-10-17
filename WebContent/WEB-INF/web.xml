@@ -11,6 +11,7 @@
     <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  
   <servlet-mapping>
 	<servlet-name>Faces Servlet</servlet-name>
 	<url-pattern>*.xhtml</url-pattern>
@@ -25,6 +26,7 @@
     <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
     <param-value>resources.application</param-value>
   </context-param>
+  
   <listener>
     <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
   </listener>

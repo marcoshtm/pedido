@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" 
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html" 
-	xmlns:f="http://java.sun.com/jsf/core">
-
-  <head>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+  
+  <h:head>
     <meta charset="iso-8859-1" />
     <title>pedido</title>
-  </head>
-  <body>
-       <ui:repeat value="#{productRequestController.products}" var="product">
-    		#{product.name}<br/>
-		</ui:repeat>
-  </body>
-</html>
+  </h:head>
+  
+  <h:body>
+	    <p:dataTable value="#{productRequestController.products}" var="product">
+	    	<f:facet name="header">
+	    	  <h:outputText value="Produtos" />
+	    	</f:facet> 
+			<p:column>
+			  <h:outputText value="#{product.name}" />
+			</p:column>
+		</p:dataTable>
+  </h:body>
+</html> 
