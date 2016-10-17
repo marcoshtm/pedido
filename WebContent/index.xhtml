@@ -9,8 +9,8 @@
     <title>pedido</title>
   </head>
   <body>
-       <ui:repeat value="#{productRequestController.products}" var="item">
-    		#{item}<br/>
+       <ui:repeat value="#{productRequestController.products}" var="product">
+    		#{product.name}<br/>
 		</ui:repeat>
   </body>
 </html>
