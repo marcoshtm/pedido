@@ -9,6 +9,8 @@
     <title>pedido</title>
   </head>
   <body>
-       #{productRequestManager.message}
+       <ui:repeat value="#{productRequestController.products}" var="item">
+    		#{item}<br/>
+		</ui:repeat>
   </body>
 </html>
