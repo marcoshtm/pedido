@@ -14,7 +14,7 @@
   
   <h:body>
   	<h:form>
-  		<p:inputText id="searchText" widgetVar="searchText" placeholder="Nome do produto a pesquisar" size="50" maxlength="40" onkeyup="globalSearch('productTable'); return false;" />
+  		<p:inputText id="searchText" styleClass="search-input" widgetVar="searchText" placeholder="Nome do produto a pesquisar" maxlength="40" onkeyup="globalSearch('productTable'); return false;" />
 	    <p:dataTable value="#{productController.products}" var="product"
 	     	tableWidget="productTable" 
 			widgetVar="productTable"

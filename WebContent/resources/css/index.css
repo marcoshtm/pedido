@@ -16,3 +16,8 @@ table {
 	width:150px;
 	display: none;
 }
+
+.search-input {
+	min-width: 280px;
+	max-width: 450px;
+}
