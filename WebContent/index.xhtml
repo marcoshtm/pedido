@@ -8,6 +8,8 @@
   <h:head>
     <meta charset="iso-8859-1" />
     <title>pedido</title>
+    <link type="text/css" rel="stylesheet" href="resources/css/index.css" />
+    <script type="text/javascript" src="resources/js/index.js"></script>
   </h:head>
   
   <h:body>
@@ -17,21 +19,16 @@
 	     	tableWidget="productTable" 
 			widgetVar="productTable"
 	    	filteredValue="#{productController.filteredProducts}"
-	    	emptyMessage="-">
+	    	emptyMessage="Nenhum produto disponivel"
+	    	styleClass="global-filtered-table">
 	    	<f:facet name="header">
 	    	  <h:outputText value="Produtos" />
-	    	  <p:inputText id="globalFilter" onkeyup="PF('productTable').filter()" style="width:150px" />
+	    	  <p:inputText id="globalFilter" styleClass="input-hidden" onkeyup="PF('productTable').filter()" />
 	    	</f:facet>
 			<p:column filterBy="#{product.name}" filterMatchMode="contains">
 			  <h:outputText value="#{product.name}" />
 			</p:column>
 		</p:dataTable>
 	</h:form>
-	<script>
-        function globalSearch(widget) {
-            $(PF(widget).jqId + "\\:globalFilter").val(PF('searchText').jq.val());
-            $(PF(widget).jqId + "\\:globalFilter").trigger("keyup");
-        }
-    </script>
   </h:body>
 </html>
