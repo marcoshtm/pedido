@@ -8,6 +8,7 @@ import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 
 import br.com.pedido.entity.Product;
+import br.com.pedido.exception.BusinessException;
 import br.com.pedido.service.ProductService;
 
 @RequestScoped
@@ -21,7 +22,11 @@ public class ProductController {
 	
 	@PostConstruct
 	public void init() {
-		this.products = productService.getProducts();
+		try {
+			this.products = productService.getProducts();
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public List<Product> getProducts() {

@@ -3,10 +3,21 @@ package br.com.pedido.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.pedido.entity.Product;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 
+import br.com.pedido.entity.Product;
+import br.com.pedido.exception.BusinessException;
+
+@Stateless
 public class ProductService {
-	public List<Product> getProducts() {
+	@Inject ProductConnector productConnector;
+	
+	public List<Product> getProducts() throws BusinessException {
+		return productConnector.getProducts();
+	}
+	
+	public List<Product> getMockedProducts() {
 		Product product1 = new Product();
 		product1.setName("ABACAXI CARAMELADO 01 UNIDADE");
 		
