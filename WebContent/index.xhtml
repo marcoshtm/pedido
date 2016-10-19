@@ -15,18 +15,40 @@
   <h:body>
   	<h:form>
   		<p:inputText id="searchText" styleClass="search-input" widgetVar="searchText" placeholder="Nome do produto a pesquisar" maxlength="40" onkeyup="globalSearch('productTable'); return false;" />
+	    
+	    <br />
+	    
 	    <p:dataTable value="#{productController.products}" var="product"
+	     	id="productTable"
 	     	tableWidget="productTable" 
 			widgetVar="productTable"
 	    	filteredValue="#{productController.filteredProducts}"
+	    	scrollable="true"
+	    	scrollHeight="400"
 	    	emptyMessage="Nenhum produto disponivel"
-	    	styleClass="global-filtered-table">
+	    	styleClass="global-filtered-table"
+	    	selectionMode="single" selection="#{productController.selectedProduct}" rowKey="#{product.productId}">
 	    	<f:facet name="header">
 	    	  <h:outputText value="Produtos" />
 	    	  <p:inputText id="globalFilter" styleClass="input-hidden" onkeyup="PF('productTable').filter()" />
 	    	</f:facet>
+	    	<p:ajax event="rowSelect" listener="#{productController.onRowSelect}" update="@form:orderTable, productTable" />
 			<p:column filterBy="#{product.name}" filterMatchMode="contains">
 			  <h:outputText value="#{product.name}" />
+			</p:column>
+		</p:dataTable>
+		
+		<p:dataTable value="#{productController.orders}" var="order"
+			id="orderTable"
+	     	tableWidget="orderTable" 
+			widgetVar="orderTable"
+	    	emptyMessage="Nenhum pedido"
+	    	styleClass="global-filtered-table">
+	    	<f:facet name="header">
+	    	  <h:outputText value="Pedido" />
+	    	</f:facet>
+			<p:column>
+			  <h:outputText value="#{order.product.name}" />
 			</p:column>
 		</p:dataTable>
 	</h:form>

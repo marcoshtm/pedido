@@ -5,7 +5,10 @@ table {
 
 .global-filtered-table {
 	margin-top: 10px;
+	margin-right: 20px;
+	margin-bottom: 20px;
 	max-width: 500px;
+	float: left;
 }
 
 .global-filtered-table thead {
@@ -18,6 +21,6 @@ table {
 }
 
 .search-input {
-	min-width: 280px;
+	min-width: 270px;
 	max-width: 450px;
 }

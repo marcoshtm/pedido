@@ -73,7 +73,8 @@ public class ProductJsonReader {
 			try {
 				product.setProductId(jsonObject.getInt("id_produto"));
 			} catch (NullPointerException npe) {
-				product.setProductId(null);
+				npe.printStackTrace();
+				throw new BusinessException("O json obtido do webservice possui ao menos um produto que não contém o id_produto.");
 			}
 			try {
 				product.setDetails(jsonObject.getString("detalhes"));

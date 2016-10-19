@@ -64,9 +64,9 @@ public class Product {
 			return false;
 		}
 		Product other = (Product) obj;
-		if (name == null || other.name == null) {
+		if (productId == null || other.productId == null) {
 			return false;
 		}
-		return name.equals(other.name);
+		return productId.equals(other.productId);
 	}
 }
