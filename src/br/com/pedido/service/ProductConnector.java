@@ -24,10 +24,12 @@ public class ProductConnector {
 	private final String GET_PRODUCTS_URL = "http://homolog.delivery.all4mobile.com.br/api/v1/getProdutos";
 	private final String AUTH_KEY = "hello123";
 	
-	public List<Product> getProducts() throws BusinessException {
+	public List<Product> getRemoteProducts() throws BusinessException {
 		try {
 			URL url = new URL(GET_PRODUCTS_URL);
-			String jsonProducts = getRemoteProducts(url);
+			String inputJson = "{ \"authkey\":\"" + AUTH_KEY + "\"}";
+			
+			String jsonProducts = getWebServiceJson(url, inputJson);
 			return productJsonReader.jsonToProducts(jsonProducts);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -35,10 +37,8 @@ public class ProductConnector {
 		}
 	}
 	
-	private String getRemoteProducts(URL url) throws BusinessException {
+	private String getWebServiceJson(URL url, String inputJson) throws BusinessException {
 		try {
-		    String inputJson = "{ \"authkey\":\"" + AUTH_KEY + "\"}";
-		    
 		    HttpURLConnection con = (HttpURLConnection)url.openConnection();
 		    con.setDoOutput(true);
 		    con.setDoInput(true);
@@ -56,26 +56,27 @@ public class ProductConnector {
 		    	BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(),"utf-8"));
 		        String line = null;
 		        while ((line = br.readLine()) != null) {  
-		        sb.append(line + "\n");  
+		        	sb.append(line + "\n");  
 		        }
-		         br.close(); 
+		        br.close(); 
 		    } else {
-		    	throw new BusinessException("Não foi possível obter a lista de produtos do webservice. HTTP error code: " + con.getResponseCode() + " Response message: " + con.getResponseMessage());
+		    	throw new BusinessException("Não foi possível obter o retorno do webservice. HTTP error code: " + con.getResponseCode() + " Response message: " + con.getResponseMessage());
 		    }
-			
+		    
 			return sb.toString();
+			
 		} catch (ProtocolException e) {
 			 e.printStackTrace();
 			 throw new BusinessException("O protocolo utilizado para acesso ao webservice é inválido.");
 		} catch (UnknownHostException uhe) {
 			uhe.printStackTrace();
-			throw new BusinessException("O host para obter os produtos por webservice não foi encontrado.");
+			throw new BusinessException("O host para a chamada do webservice não foi encontrado.");
 		} catch (RuntimeException re) {
 			re.printStackTrace();
-			throw new BusinessException("Não foi possível obter a lista de produtos do webservice. Ocorreu um erro de runtime.");
+			throw new BusinessException("Não foi possível obter o retorno do webservice. Ocorreu um erro de runtime.");
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new BusinessException("Não foi possível obter a lista de produtos do webservice. Ocorreu um erro de IO.");
+			throw new BusinessException("Não foi possível obter o retorno do webservice. Ocorreu um erro de IO.");
 		}
 	}
 }

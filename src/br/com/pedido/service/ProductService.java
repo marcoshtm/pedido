@@ -13,6 +13,6 @@ public class ProductService {
 	@Inject ProductConnector productConnector;
 	
 	public List<Product> getProducts() throws BusinessException {
-		return productConnector.getProducts();
+		return productConnector.getRemoteProducts();
 	}
 }
