@@ -14,11 +14,11 @@ import javax.inject.Inject;
 import org.joda.time.LocalDateTime;
 import org.primefaces.event.SelectEvent;
 
+import br.com.pedido.domain.order.OrderService;
+import br.com.pedido.domain.product.ProductService;
 import br.com.pedido.entity.Order;
 import br.com.pedido.entity.Product;
 import br.com.pedido.exception.BusinessException;
-import br.com.pedido.service.OrderService;
-import br.com.pedido.service.ProductService;
 
 @SessionScoped
 @ManagedBean
@@ -70,19 +70,19 @@ public class ProductOrderController {
 			return;
 		}
 		
-		Boolean accepted = orderService.getAcceptance();
-		
-		if (!accepted) {
-			showErrorMessage("O pedido não foi aceito (randomicamente).");
-		} else {
-			this.deliveryDateTime = LocalDateTime.now().plusMinutes(50);
-			
-			try {
+		try {
+			if (orderService.getAcceptance()) {
+				this.deliveryDateTime = LocalDateTime.now().plusMinutes(50);
+				orderService.setOrder();
 				FacesContext.getCurrentInstance().getExternalContext().redirect("pagina2.xhtml");
-			} catch (IOException e) {
-				e.printStackTrace();
-				showErrorMessage("Seu pedido não foi realizado. Erro inesperado.");
+			} else {
+				showErrorMessage("Seu pedido não foi aceito (randomicamente).");
 			}
+		} catch (BusinessException be) {
+			showErrorMessage("O envio do seu pedido para o webservice falhou.");
+		} catch (IOException e) {
+			e.printStackTrace();
+			showErrorMessage("Seu pedido não foi realizado. Erro inesperado.");
 		}
 	}
 	

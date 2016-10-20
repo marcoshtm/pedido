@@ -1,4 +1,4 @@
-package br.com.pedido.service;
+package br.com.pedido.domain.product;
 
 import java.util.List;
 

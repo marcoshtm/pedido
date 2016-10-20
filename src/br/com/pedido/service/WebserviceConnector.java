@@ -5,39 +5,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 
-import br.com.pedido.entity.Product;
 import br.com.pedido.exception.BusinessException;
 
 @Stateless
-public class ProductConnector {
-	@Inject ProductJsonReader productJsonReader;
-	
-	private final String GET_PRODUCTS_URL = "http://homolog.delivery.all4mobile.com.br/api/v1/getProdutos";
-	private final String AUTH_KEY = "hello123";
-	
-	public List<Product> getRemoteProducts() throws BusinessException {
-		try {
-			URL url = new URL(GET_PRODUCTS_URL);
-			String inputJson = "{ \"authkey\":\"" + AUTH_KEY + "\"}";
-			
-			String jsonProducts = getWebServiceJson(url, inputJson);
-			return productJsonReader.jsonToProducts(jsonProducts);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			throw new BusinessException("O url do webservice está mal formatado.");
-		}
-	}
-	
-	private String getWebServiceJson(URL url, String inputJson) throws BusinessException {
+public class WebserviceConnector {
+	public String getWebServiceJson(URL url, String inputJson) throws BusinessException {
 		try {
 		    HttpURLConnection con = (HttpURLConnection)url.openConnection();
 		    con.setDoOutput(true);

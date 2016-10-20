@@ -7,9 +7,9 @@ import java.math.RoundingMode;
 
 import org.junit.Test;
 
+import br.com.pedido.domain.product.ProductJsonReader;
 import br.com.pedido.entity.Product;
 import br.com.pedido.exception.BusinessException;
-import br.com.pedido.service.ProductJsonReader;
 
 public class ProductJsonReaderTest {
 	@Test
