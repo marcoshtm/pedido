@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" 
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -13,8 +14,29 @@
   </h:head>
   
   <h:body>
-  	<h:form>
-		<p:outputLabel value="página2" />
-	</h:form>
+  	<p:outputLabel value="Pedido realizado com sucesso!" />
+  	<br />
+  	<div>
+		<p:dataTable value="#{productController.orders}" var="order"
+			id="summaryTable"
+		    tableWidget="summaryTable" 
+			widgetVar="summaryTable"
+		   	emptyMessage="Nenhum pedido foi registrado"
+		   	styleClass="global-filtered-table">
+		   	<f:facet name="header">
+		   	  <h:outputText value="Resumo" />
+		   	</f:facet>
+			<p:column>
+			  <h:outputText value="#{order.quantity} x #{order.product.name}" />
+			</p:column>
+		</p:dataTable>
+		<div class="global-filtered-table">
+			<h:outputText value="Previsão de entrega:" />
+			<br />
+			<h:outputLabel value="#{productController.deliveryDateTime}" />
+			<br /><br />
+			<p:commandButton styleClass="submit-button" value="Novo Pedido" actionListener="#{productController.submitOrder()}" />
+		</div>
+	</div>
   </h:body>
 </html>

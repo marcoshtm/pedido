@@ -1,6 +1,8 @@
 package br.com.pedido.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +12,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.joda.time.LocalDateTime;
 import org.primefaces.event.SelectEvent;
 
 import br.com.pedido.entity.Order;
@@ -32,14 +35,16 @@ public class ProductController {
 	
 	private List<Order> orders;
 	
+	private LocalDateTime deliveryDateTime;
+	
 	@PostConstruct
 	public void init() {
 		try {
 			this.products = productService.getProducts();
-			orders = new ArrayList<Order>();
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
+		this.orders = new ArrayList<Order>();
 	}
 	
 	public void onRowSelect(SelectEvent event) {
@@ -63,23 +68,20 @@ public class ProductController {
 	public void submitOrder() {
 		Boolean accepted = orderService.getAcceptance();
 		
-		if (accepted) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso. Pedido aceito.",  null);
-			FacesContext.getCurrentInstance().addMessage("messages", message);
-		} else {
+		if (!accepted) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "O pedido não foi aceito.",  null);
 			FacesContext.getCurrentInstance().addMessage("messages", message);
+		} else {
+			this.deliveryDateTime = LocalDateTime.now().plusMinutes(50);
+			
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("pagina2.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seu pedido não foi realizado. Erro inesperado.",  null);
+				FacesContext.getCurrentInstance().addMessage("messages", message);
+			}
 		}
-		
-//		DateTime submitOrderDateTime = DateTime.now();
-//		DateTime deliveryDateTime = submitOrderDateTime.plusMinutes(50);
-		
-//		try {
-//			FacesContext.getCurrentInstance().getExternalContext().redirect("pagina2.xhtml");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 	
 	public List<Product> getProducts() {
@@ -108,5 +110,17 @@ public class ProductController {
 	
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+	
+	public String getDeliveryDateTime() {
+		if (deliveryDateTime != null) {
+			return deliveryDateTime.toString("HH:mm");
+		} else {
+			return "";
+		}
+	}
+	
+	public void setDeliveryDateTime(LocalDateTime deliveryDateTime) {
+		this.deliveryDateTime = deliveryDateTime;
 	}
 }

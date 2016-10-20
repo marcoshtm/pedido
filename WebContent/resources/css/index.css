@@ -34,6 +34,6 @@ table {
 	max-width: 450px;
 }
 
-.submit-order-button, submit-order-message {
+.submit-button, submit-order-message {
 	float: right;
 }
