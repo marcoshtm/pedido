@@ -20,7 +20,20 @@ table {
 	display: none;
 }
 
+.quantity-selector-column {
+	width: 120px;
+}
+
+.quantity-selector-column button {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
 .search-input {
 	min-width: 270px;
 	max-width: 450px;
+}
+
+.submit-order-button, submit-order-message {
+	float: right;
 }

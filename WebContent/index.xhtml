@@ -32,25 +32,35 @@
 	    	  <h:outputText value="Produtos" />
 	    	  <p:inputText id="globalFilter" styleClass="input-hidden" onkeyup="PF('productTable').filter()" />
 	    	</f:facet>
-	    	<p:ajax event="rowSelect" listener="#{productController.onRowSelect}" update="@form:orderTable, productTable" />
+	    	<p:ajax event="rowSelect" listener="#{productController.onRowSelect}" update="@form:orderTable, productTable" oncomplete="globalSearch('productTable'); return false;" />
 			<p:column filterBy="#{product.name}" filterMatchMode="contains">
 			  <h:outputText value="#{product.name}" />
 			</p:column>
 		</p:dataTable>
 		
-		<p:dataTable value="#{productController.orders}" var="order"
-			id="orderTable"
-	     	tableWidget="orderTable" 
-			widgetVar="orderTable"
-	    	emptyMessage="Nenhum pedido"
-	    	styleClass="global-filtered-table">
-	    	<f:facet name="header">
-	    	  <h:outputText value="Pedido" />
-	    	</f:facet>
-			<p:column>
-			  <h:outputText value="#{order.product.name}" />
-			</p:column>
-		</p:dataTable>
+		<div class="global-filtered-table">
+			<p:dataTable value="#{productController.orders}" var="order"
+				id="orderTable"
+		     	tableWidget="orderTable" 
+				widgetVar="orderTable"
+		    	emptyMessage="Nenhum pedido">
+		    	<f:facet name="header">
+		    	  <h:outputText value="Pedido" />
+		    	</f:facet>
+				<p:column>
+				  <h:outputText value="#{order.product.name}" />
+				</p:column>
+				<p:column styleClass="quantity-selector-column">
+				  <p:commandButton value="-" process="@this" actionListener="#{productController.minus(order)}" update="quantity" />
+				  <p:outputLabel value="qtd. " /><p:outputLabel id="quantity" value="#{order.quantity}" />
+				  <p:commandButton value="+" process="@this" actionListener="#{productController.plus(order)}" update="quantity" />
+				</p:column>
+			</p:dataTable>
+			<br />
+			<p:messages styleClass="submit-order-message" autoUpdate="true" />
+			<br />
+			<p:commandButton styleClass="submit-order-button" value="Enviar Pedido" actionListener="#{productController.submitOrder()}" />
+		</div>
 	</h:form>
   </h:body>
 </html>
