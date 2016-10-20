@@ -2,7 +2,6 @@ package br.com.pedido.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,7 +22,7 @@ import br.com.pedido.service.ProductService;
 
 @SessionScoped
 @ManagedBean
-public class ProductController {
+public class ProductOrderController {
 	@Inject
 	ProductService productService;
 	@Inject
@@ -66,11 +65,15 @@ public class ProductController {
 	}
 	
 	public void submitOrder() {
+		if (orders.size() == 0) {
+			showErrorMessage("Selecione ao menos um produto.");
+			return;
+		}
+		
 		Boolean accepted = orderService.getAcceptance();
 		
 		if (!accepted) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "O pedido não foi aceito.",  null);
-			FacesContext.getCurrentInstance().addMessage("messages", message);
+			showErrorMessage("O pedido não foi aceito (randomicamente).");
 		} else {
 			this.deliveryDateTime = LocalDateTime.now().plusMinutes(50);
 			
@@ -78,9 +81,22 @@ public class ProductController {
 				FacesContext.getCurrentInstance().getExternalContext().redirect("pagina2.xhtml");
 			} catch (IOException e) {
 				e.printStackTrace();
-				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seu pedido não foi realizado. Erro inesperado.",  null);
-				FacesContext.getCurrentInstance().addMessage("messages", message);
+				showErrorMessage("Seu pedido não foi realizado. Erro inesperado.");
 			}
+		}
+	}
+	
+	private void showErrorMessage(String message) {
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, message,  null);
+		FacesContext.getCurrentInstance().addMessage("messages", facesMessage);
+	}
+	
+	public void newOrder() {
+		init();
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("pagina1.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

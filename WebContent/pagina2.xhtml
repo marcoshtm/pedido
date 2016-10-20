@@ -9,34 +9,35 @@
   <h:head>
     <meta charset="iso-8859-1" />
     <title>pedido</title>
-    <link type="text/css" rel="stylesheet" href="resources/css/index.css" />
-    <script type="text/javascript" src="resources/js/index.js"></script>
+    <link type="text/css" rel="stylesheet" href="resources/css/style.css" />
   </h:head>
   
   <h:body>
-  	<p:outputLabel value="Pedido realizado com sucesso!" />
-  	<br />
-  	<div>
-		<p:dataTable value="#{productController.orders}" var="order"
-			id="summaryTable"
-		    tableWidget="summaryTable" 
-			widgetVar="summaryTable"
-		   	emptyMessage="Nenhum pedido foi registrado"
-		   	styleClass="global-filtered-table">
-		   	<f:facet name="header">
-		   	  <h:outputText value="Resumo" />
-		   	</f:facet>
-			<p:column>
-			  <h:outputText value="#{order.quantity} x #{order.product.name}" />
-			</p:column>
-		</p:dataTable>
-		<div class="global-filtered-table">
-			<h:outputText value="Previsão de entrega:" />
-			<br />
-			<h:outputLabel value="#{productController.deliveryDateTime}" />
-			<br /><br />
-			<p:commandButton styleClass="submit-button" value="Novo Pedido" actionListener="#{productController.submitOrder()}" />
+  	<h:form>
+	  	<p:outputLabel value="Pedido realizado com sucesso!" />
+	  	<br />
+	  	<div>
+			<p:dataTable value="#{productOrderController.orders}" var="order"
+				id="summaryTable"
+			    tableWidget="summaryTable" 
+				widgetVar="summaryTable"
+			   	emptyMessage="Nenhum pedido foi registrado"
+			   	styleClass="global-filtered-table">
+			   	<f:facet name="header">
+			   	  <h:outputText value="Resumo" />
+			   	</f:facet>
+				<p:column>
+				  <h:outputText value="#{order.quantity} x #{order.product.name}" />
+				</p:column>
+			</p:dataTable>
+			<div class="global-filtered-table">
+				<h:outputText value="Previsão de entrega:" />
+				<br />
+				<h:outputLabel value="#{productOrderController.deliveryDateTime}" />
+				<br /><br />
+				<p:commandButton styleClass="submit-button" value="Novo Pedido" actionListener="#{productOrderController.newOrder()}" />
+			</div>
 		</div>
-	</div>
+	</h:form>
   </h:body>
 </html>

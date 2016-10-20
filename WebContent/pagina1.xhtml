@@ -9,38 +9,38 @@
   <h:head>
     <meta charset="iso-8859-1" />
     <title>pedido</title>
-    <link type="text/css" rel="stylesheet" href="resources/css/index.css" />
-    <script type="text/javascript" src="resources/js/index.js"></script>
+    <link type="text/css" rel="stylesheet" href="resources/css/style.css" />
+    <script type="text/javascript" src="resources/js/pagina1.js"></script>
   </h:head>
   
   <h:body>
   	<h:form>
-  		<p:inputText id="searchText" styleClass="search-input" widgetVar="searchText" placeholder="Nome do produto a pesquisar" maxlength="40" onkeyup="globalSearch('productTable'); return false;" />
+  		<p:inputText id="searchText" styleClass="search-input" widgetVar="searchText" placeholder="Nome do produto a pesquisar" maxlength="45" onkeyup="globalSearch('productTable'); return false;" />
 	    
 	    <br />
 	    
-	    <p:dataTable value="#{productController.products}" var="product"
+	    <p:dataTable value="#{productOrderController.products}" var="product"
 	     	id="productTable"
 	     	tableWidget="productTable" 
 			widgetVar="productTable"
-	    	filteredValue="#{productController.filteredProducts}"
+	    	filteredValue="#{productOrderController.filteredProducts}"
 	    	scrollable="true"
 	    	scrollHeight="400"
 	    	emptyMessage="Nenhum produto disponivel"
 	    	styleClass="global-filtered-table"
-	    	selectionMode="single" selection="#{productController.selectedProduct}" rowKey="#{product.productId}">
+	    	selectionMode="single" selection="#{productOrderController.selectedProduct}" rowKey="#{product.productId}">
 	    	<f:facet name="header">
 	    	  <h:outputText value="Produtos" />
 	    	  <p:inputText id="globalFilter" styleClass="input-hidden" onkeyup="PF('productTable').filter()" />
 	    	</f:facet>
-	    	<p:ajax event="rowSelect" listener="#{productController.onRowSelect}" update="@form:orderTable, productTable" oncomplete="globalSearch('productTable'); return false;" />
+	    	<p:ajax event="rowSelect" listener="#{productOrderController.onRowSelect}" update="@form:orderTable, productTable" oncomplete="globalSearch('productTable'); return false;" />
 			<p:column filterBy="#{product.name}" filterMatchMode="contains">
 			  <h:outputText value="#{product.name}" />
 			</p:column>
 		</p:dataTable>
 		
 		<div class="global-filtered-table">
-			<p:dataTable value="#{productController.orders}" var="order"
+			<p:dataTable value="#{productOrderController.orders}" var="order"
 				id="orderTable"
 		     	tableWidget="orderTable" 
 				widgetVar="orderTable"
@@ -52,15 +52,15 @@
 				  <h:outputText value="#{order.product.name}" />
 				</p:column>
 				<p:column styleClass="quantity-selector-column">
-				  <p:commandButton value="-" process="@this" actionListener="#{productController.minus(order)}" update="quantity" />
+				  <p:commandButton value="-" process="@this" actionListener="#{productOrderController.minus(order)}" update="quantity" />
 				  <p:outputLabel value="qtd. " /><p:outputLabel id="quantity" value="#{order.quantity}" />
-				  <p:commandButton value="+" process="@this" actionListener="#{productController.plus(order)}" update="quantity" />
+				  <p:commandButton value="+" process="@this" actionListener="#{productOrderController.plus(order)}" update="quantity" />
 				</p:column>
 			</p:dataTable>
 			<br />
 			<p:messages styleClass="submit-order-message" autoUpdate="true" />
 			<br />
-			<p:commandButton styleClass="submit-button" value="Enviar Pedido" actionListener="#{productController.submitOrder()}" />
+			<p:commandButton styleClass="submit-button" value="Enviar Pedido" actionListener="#{productOrderController.submitOrder()}" />
 		</div>
 	</h:form>
   </h:body>

@@ -3,7 +3,7 @@
   <display-name>pedido</display-name>
   
   <welcome-file-list>
-    <welcome-file>index.xhtml</welcome-file>
+    <welcome-file>pagina1.xhtml</welcome-file>
   </welcome-file-list>
   
   <servlet>
