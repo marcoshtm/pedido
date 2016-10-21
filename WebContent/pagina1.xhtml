@@ -15,7 +15,7 @@
   
   <h:body>
   	<h:form>
-  		<p:inputText id="searchText" styleClass="search-input" widgetVar="searchText" placeholder="Nome do produto a pesquisar" maxlength="45" onkeyup="globalSearch('productTable'); return false;" />
+  		<p:inputText id="searchText" styleClass="search-input" widgetVar="searchText" placeholder="Nome do produto a pesquisar" maxlength="45" />
 	    
 	    <br />
 	    
@@ -33,9 +33,9 @@
 	    	  <h:outputText value="Produtos" />
 	    	  <p:inputText id="globalFilter" styleClass="input-hidden" onkeyup="PF('productTable').filter()" />
 	    	</f:facet>
-	    	<p:ajax event="rowSelect" listener="#{productOrderController.onRowSelect}" update="@form:orderTable, productTable" oncomplete="globalSearch('productTable'); return false;" />
+	    	<p:ajax event="rowSelect" listener="#{productOrderController.onRowSelect}" update="@form:orderTable, productTable" oncomplete="productSearch('productTable'); return false;" />
 			<p:column filterBy="#{product.name}" filterMatchMode="contains">
-			  <h:outputText value="#{product.name}" />
+			  <h:outputText styleClass="product-name" value="#{product.name}" />
 			</p:column>
 		</p:dataTable>
 		
