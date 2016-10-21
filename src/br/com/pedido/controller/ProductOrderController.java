@@ -17,6 +17,7 @@ import org.primefaces.event.SelectEvent;
 import br.com.pedido.domain.order.OrderService;
 import br.com.pedido.domain.product.ProductService;
 import br.com.pedido.entity.Order;
+import br.com.pedido.entity.OrderItem;
 import br.com.pedido.entity.Product;
 import br.com.pedido.exception.BusinessException;
 
@@ -32,9 +33,9 @@ public class ProductOrderController {
 	private List<Product> filteredProducts;
 	private Product selectedProduct;
 	
-	private List<Order> orders;
+	private List<OrderItem> orderItems;
 	
-	private LocalDateTime deliveryDateTime;
+	private LocalDateTime deliveryForecast;
 	
 	@PostConstruct
 	public void init() {
@@ -43,46 +44,49 @@ public class ProductOrderController {
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
-		this.orders = new ArrayList<Order>();
+		this.orderItems = new ArrayList<OrderItem>();
 	}
 	
 	public void onRowSelect(SelectEvent event) {
 		Product selectedProduct = (Product) event.getObject();
-		orders.add(new Order(selectedProduct, 1));
+		orderItems.add(new OrderItem(selectedProduct, 1));
 		products.remove(selectedProduct);
     }
 	
-	public void minus(Order order) {
-		int index = orders.indexOf(order);
+	public void minus(OrderItem order) {
+		int index = orderItems.indexOf(order);
 		order.setQuantity(order.getQuantity()-1);
-		orders.set(index, order);
+		orderItems.set(index, order);
 	}
 	
-	public void plus(Order order) {
-		int index = orders.indexOf(order);
+	public void plus(OrderItem order) {
+		int index = orderItems.indexOf(order);
 		order.setQuantity(order.getQuantity()+1);
-		orders.set(index, order);
+		orderItems.set(index, order);
 	}
 	
 	public void submitOrder() {
-		if (orders.size() == 0) {
+		if (orderItems.size() == 0) {
 			showErrorMessage("Selecione ao menos um produto.");
 			return;
 		}
 		
+		if (!orderService.getAcceptance()) {
+			showErrorMessage("Seu pedido não foi aceito (randomicamente).");
+			return;
+		}
+		
 		try {
-			if (orderService.getAcceptance()) {
-				this.deliveryDateTime = LocalDateTime.now().plusMinutes(50);
-				orderService.setOrder();
-				FacesContext.getCurrentInstance().getExternalContext().redirect("pagina2.xhtml");
-			} else {
-				showErrorMessage("Seu pedido não foi aceito (randomicamente).");
-			}
+			LocalDateTime creation = LocalDateTime.now();
+			this.deliveryForecast = orderService.calculateDeliveryForecast(creation);
+			Order order = orderService.getOrderPartiallyMocked(creation, deliveryForecast, orderItems);
+			orderService.setOrder(order);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("pagina2.xhtml");
 		} catch (BusinessException be) {
 			showErrorMessage("O envio do seu pedido para o webservice falhou.");
 		} catch (IOException e) {
 			e.printStackTrace();
-			showErrorMessage("Seu pedido não foi realizado. Erro inesperado.");
+			showErrorMessage("Erro inesperado.");
 		}
 	}
 	
@@ -120,23 +124,23 @@ public class ProductOrderController {
 		this.selectedProduct = selectedProduct;
 	}
 	
-	public List<Order> getOrders() {
-		return orders;
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
 	} 
 	
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
+	public void setOrders(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
 	}
 	
-	public String getDeliveryDateTime() {
-		if (deliveryDateTime != null) {
-			return deliveryDateTime.toString("HH:mm");
+	public String getDeliveryForecast() {
+		if (deliveryForecast != null) {
+			return deliveryForecast.toString("HH:mm");
 		} else {
 			return "";
 		}
 	}
 	
-	public void setDeliveryDateTime(LocalDateTime deliveryDateTime) {
-		this.deliveryDateTime = deliveryDateTime;
+	public void setDeliveryForecast(LocalDateTime deliveryForecast) {
+		this.deliveryForecast = deliveryForecast;
 	}
 }

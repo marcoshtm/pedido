@@ -1,25 +1,74 @@
 package br.com.pedido.entity;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.joda.time.LocalDateTime;
+
 public class Order {
-	private Product product;
-	private Integer quantity;
+	public Integer storeId;
+	public String orderId;
+	public LocalDateTime creation;
+	public LocalDateTime deliveryForecast;
+	public BigDecimal totalAmount;
+	public BigDecimal deliveryFee;
+	public Payment payment;
+	public List<OrderItem> orderItems;
+	public Customer customer;
 	
-	public Order(Product product, Integer quantity) {
-		this.product = product;
-		this.quantity = quantity;
+	public Integer getStoreId() {
+		return storeId;
 	}
-	
-	public Product getProduct() {
-		return product;
+	public void setStoreId(Integer storeId) {
+		this.storeId = storeId;
 	}
-	public void setProduct(Product product) {
-		this.product = product;
+	public String getOrderId() {
+		return orderId;
 	}
-	public Integer getQuantity() {
-		return quantity;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
+	public LocalDateTime getCreation() {
+		return creation;
+	}
+	public void setCreation(LocalDateTime creation) {
+		this.creation = creation;
+	}
+	public LocalDateTime getDeliveryForecast() {
+		return deliveryForecast;
+	}
+	public void setDeliveryForecast(LocalDateTime deliveryForecast) {
+		this.deliveryForecast = deliveryForecast;
+	}
+	public BigDecimal getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+	public BigDecimal getDeliveryFee() {
+		return deliveryFee;
+	}
+	public void setDeliveryFee(BigDecimal deliveryFee) {
+		this.deliveryFee = deliveryFee;
+	}
+	public Payment getPayment() {
+		return payment;
+	}
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
+	}
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 	
 	@Override
@@ -32,10 +81,9 @@ public class Order {
 			return false;
 		}
 		Order other = (Order) obj;
-		if (product == null || product.getProductId() == null || quantity == null ||
-			other.getProduct() == null || other.getProduct().getProductId() == null || other.getQuantity() == null) {
+		if (orderId == null || other.orderId == null) {
 			return false;
 		}
-		return product.getProductId().equals(other.getProduct().getProductId()) && quantity.equals(other.quantity);
+		return orderId.equals(other.orderId);
 	}
 }

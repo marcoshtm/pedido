@@ -17,7 +17,7 @@
 	  	<p:outputLabel value="Pedido realizado com sucesso!" />
 	  	<br />
 	  	<div>
-			<p:dataTable value="#{productOrderController.orders}" var="order"
+			<p:dataTable value="#{productOrderController.orderItems}" var="orderItem"
 				id="summaryTable"
 			    tableWidget="summaryTable" 
 				widgetVar="summaryTable"
@@ -27,13 +27,13 @@
 			   	  <h:outputText value="Resumo" />
 			   	</f:facet>
 				<p:column>
-				  <h:outputText value="#{order.quantity} x #{order.product.name}" />
+				  <h:outputText value="#{orderItem.quantity} x #{orderItem.product.name}" />
 				</p:column>
 			</p:dataTable>
 			<div class="global-filtered-table">
 				<h:outputText value="Previsão de entrega:" />
 				<br />
-				<h:outputLabel value="#{productOrderController.deliveryDateTime}" />
+				<h:outputLabel value="#{productOrderController.deliveryForecast}" />
 				<br /><br />
 				<p:commandButton styleClass="submit-button" value="Novo Pedido" actionListener="#{productOrderController.newOrder()}" />
 			</div>

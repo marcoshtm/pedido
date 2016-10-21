@@ -40,7 +40,7 @@
 		</p:dataTable>
 		
 		<div class="global-filtered-table">
-			<p:dataTable value="#{productOrderController.orders}" var="order"
+			<p:dataTable value="#{productOrderController.orderItems}" var="orderItem"
 				id="orderTable"
 		     	tableWidget="orderTable" 
 				widgetVar="orderTable"
@@ -49,12 +49,12 @@
 		    	  <h:outputText value="Pedido" />
 		    	</f:facet>
 				<p:column>
-				  <h:outputText value="#{order.product.name}" />
+				  <h:outputText value="#{orderItem.product.name}" />
 				</p:column>
 				<p:column styleClass="quantity-selector-column">
-				  <p:commandButton value="-" process="@this" actionListener="#{productOrderController.minus(order)}" update="quantity" />
-				  <p:outputLabel value="qtd. " /><p:outputLabel id="quantity" value="#{order.quantity}" />
-				  <p:commandButton value="+" process="@this" actionListener="#{productOrderController.plus(order)}" update="quantity" />
+				  <p:commandButton value="-" process="@this" actionListener="#{productOrderController.minus(orderItem)}" update="quantity" />
+				  <p:outputLabel value="qtd. " /><p:outputLabel id="quantity" value="#{orderItem.quantity}" />
+				  <p:commandButton value="+" process="@this" actionListener="#{productOrderController.plus(orderItem)}" update="quantity" />
 				</p:column>
 			</p:dataTable>
 			<br />
