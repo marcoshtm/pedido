@@ -17,8 +17,23 @@ $(function() {
 });
 
 function productSearch() {
-    $(PF('productTable').jqId + "\\:globalFilter").val(PF('searchText').jq.val());
+	var searchText = removeAccents(PF('searchText').jq.val());
+    $(PF('productTable').jqId + "\\:globalFilter").val(searchText);
     $(PF('productTable').jqId + "\\:globalFilter").trigger("keyup");
+}
+
+function removeAccents(word) { 
+    var withAccents = 'áàãâäéèêëíìîïóòõôöúùûüçÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÖÔÚÙÛÜÇ'; 
+    var noAccents = 'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC'; 
+    var newWord = ''; 
+    for (i=0;i<word.length;i++) { 
+        if (withAccents.search(word.substr(i,1))>=0) { 
+        	newWord+=noAccents.substr(withAccents.search(word.substr(i,1)),1); 
+        } else { 
+        	newWord+=word.substr(i,1); 
+        } 
+    } 
+    return newWord; 
 }
 
 function onEnter() {

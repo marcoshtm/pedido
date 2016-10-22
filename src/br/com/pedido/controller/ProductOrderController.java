@@ -2,6 +2,7 @@ package br.com.pedido.controller;
 
 import java.io.IOException;
 import java.text.Collator;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,6 +48,7 @@ public class ProductOrderController {
 		try {
 			this.products = productService.getProducts();
 			adjustProductsPositions();
+			this.filteredProducts = products;
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
@@ -124,7 +126,16 @@ public class ProductOrderController {
 	        }  
         });
 	}
-
+	
+	public String prepareToFilter(String str) {
+		str = Normalizer.normalize(str, Normalizer.Form.NFD);
+		str = str.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+		str = str.replace("  ", " ");
+		str = str.replace("   ", " ");
+		str = str.trim();
+		return str;
+	}
+	
 	public List<Product> getProducts() {
         return products;
 	}

@@ -34,7 +34,7 @@
 	    	  <p:inputText id="globalFilter" styleClass="input-hidden" onkeyup="PF('productTable').filter()" />
 	    	</f:facet>
 	    	<p:ajax event="rowSelect" listener="#{productOrderController.onRowSelect}" update="@form:orderTable, productTable" oncomplete="productSearch('productTable'); return false;" />
-			<p:column filterBy="#{product.name}" filterMatchMode="contains">
+			<p:column filterBy="#{productOrderController.prepareToFilter(product.name)}" filterMatchMode="contains">
 			  <h:outputText styleClass="product-name" value="#{product.name}" />
 			</p:column>
 		</p:dataTable>
