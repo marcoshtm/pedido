@@ -1,4 +1,4 @@
-package br.com.pedido.service;
+package br.com.pedido.global;
 
 import java.io.BufferedReader;
 import java.io.IOException;

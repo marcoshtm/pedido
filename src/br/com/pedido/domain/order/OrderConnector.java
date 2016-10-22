@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import br.com.pedido.entity.Order;
 import br.com.pedido.exception.BusinessException;
-import br.com.pedido.service.WebserviceConnector;
+import br.com.pedido.global.WebserviceConnector;
 
 @Stateless
 public class OrderConnector {

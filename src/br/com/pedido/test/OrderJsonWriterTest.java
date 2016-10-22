@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import br.com.pedido.entity.OrderItem;
 import br.com.pedido.entity.Product;
-import br.com.pedido.service.JsonUtil;
+import br.com.pedido.global.JsonUtil;
 
 public class OrderJsonWriterTest {
 	@Test

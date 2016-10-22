@@ -12,7 +12,7 @@ import javax.json.JsonObjectBuilder;
 
 import br.com.pedido.entity.Order;
 import br.com.pedido.entity.OrderItem;
-import br.com.pedido.service.JsonUtil;
+import br.com.pedido.global.JsonUtil;
 
 @Stateless
 public class OrderJsonWriter {

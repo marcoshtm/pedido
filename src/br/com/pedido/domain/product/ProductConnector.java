@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import br.com.pedido.entity.Product;
 import br.com.pedido.exception.BusinessException;
-import br.com.pedido.service.WebserviceConnector;
+import br.com.pedido.global.WebserviceConnector;
 
 @Stateless
 public class ProductConnector {
