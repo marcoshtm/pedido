@@ -1,8 +1,12 @@
 package br.com.pedido.controller;
 
 import java.io.IOException;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -34,6 +38,7 @@ public class ProductOrderController {
 	private Product selectedProduct;
 	
 	private List<OrderItem> orderItems;
+	private OrderItem selectedOrderItem;
 	
 	private LocalDateTime deliveryForecast;
 	
@@ -41,6 +46,7 @@ public class ProductOrderController {
 	public void init() {
 		try {
 			this.products = productService.getProducts();
+			adjustProductsPositions();
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
@@ -104,6 +110,21 @@ public class ProductOrderController {
 		}
 	}
 	
+	public void removeOrderItem() {
+		products.add(selectedOrderItem.getProduct());
+		orderItems.remove(selectedOrderItem);
+		adjustProductsPositions();
+	}
+	
+	private void adjustProductsPositions() {
+		Collections.sort(products, new Comparator<Product> () {  
+			Collator collator = Collator.getInstance(new Locale("pt", "BR"));
+			public int compare(Product p1, Product p2) {
+				return collator.compare(p1.getName(), p2.getName());
+	        }  
+        });
+	}
+
 	public List<Product> getProducts() {
         return products;
 	}
@@ -130,6 +151,14 @@ public class ProductOrderController {
 	
 	public void setOrders(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
+	}
+
+	public OrderItem getSelectedOrderItem() {
+		return selectedOrderItem;
+	}
+
+	public void setSelectedOrderItem(OrderItem selectedOrderItem) {
+		this.selectedOrderItem = selectedOrderItem;
 	}
 	
 	public String getDeliveryForecast() {
